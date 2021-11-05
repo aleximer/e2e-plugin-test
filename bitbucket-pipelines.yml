@@ -5,8 +5,8 @@ pipelines:
     - step:
         script:
           - printenv | grep PLUGIN_ >> .env
-          - cp -R ~/.ssh $BITBUCKET_CLONE_DIR/.ssh
-          - cat $BITBUCKET_CLONE_DIR/.ssh/config
+          - mkdir $BITBUCKET_CLONE_DIR/.ssh && cp /opt/atlassian/pipelines/agent/ssh/id_rsa $BITBUCKET_CLONE_DIR/.ssh/
+          - ls $BITBUCKET_CLONE_DIR/.ssh/
 #          - docker-compose up -d --build
 #          - docker-compose run --rm plugin clone ${PLUGIN_REPOSITORY}
 #          - docker-compose run --rm cli sh /scripts/wordpress.sh
