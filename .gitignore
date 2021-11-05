@@ -6,6 +6,9 @@
 # Node artifact files
 node_modules/
 dist/
+plugin/
+db/
+wordpress/
 
 # Compiled Java class files
 *.class
