@@ -14,7 +14,7 @@ pipelines:
           - docker-compose run --rm cli sh /scripts/wordpress.sh
           - docker-compose run --rm cli [ -f ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh ] && sh ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh
           - echo "Tests for PB checkout run here"
-          - docker-compose run e2e --record --key $PLUGIN_CYPRESS_KEY
+          - docker-compose run -v ./plugin/${PLUGIN_NAME}/tests/e2e:/e2e e2e --record --key $PLUGIN_CYPRESS_KEY
           - echo "Switching to USM"
           - docker-compose run --rm cli sh ./wp-content/plugins/porterbuddy-for-woocommerce/tests/e2e/cli/checkout_template.sh new_universal_shipping
           - echo "Tests for PB USM run here"
