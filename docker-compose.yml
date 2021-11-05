@@ -11,7 +11,6 @@ services:
       - e2e-net
   plugin:
     image: alpine/git
-    command: git clone ${PLUGIN_REPOSITORY} ${PLUGIN_NAME}
     env_file:
       - ./.env
     volumes:
