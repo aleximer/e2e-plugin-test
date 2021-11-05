@@ -6,6 +6,7 @@ pipelines:
         script:
           - printenv | grep PLUGIN_ >> .env
           - docker-compose up -d --build
+          - docker-compose run --rm plugin ls -la ${PLUGIN_REPOSITORY}
           - docker-compose run --rm plugin clone ${PLUGIN_REPOSITORY}
           - sleep 1m
           - docker-compose run --rm cli sh /scripts/wordpress.sh
