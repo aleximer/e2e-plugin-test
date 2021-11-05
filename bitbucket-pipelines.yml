@@ -9,7 +9,8 @@ pipelines:
 #          - chmod 600 $BITBUCKET_CLONE_DIR/.ssh/id_rsa
 #          - cp ~/.ssh/known_hosts $BITBUCKET_CLONE_DIR/.ssh/
           - docker-compose up -d --build
-          - docker-compose run --rm plugin clone ${PLUGIN_REPOSITORY}
+          - docker-compose run --rm plugin clone ${PLUGIN_REPOSITORY} temp
+          - cp -rp temp/* ${PLUGIN_NAME}/
           - sleep 1m
           - docker-compose run --rm cli sh /scripts/wordpress.sh
           - docker-compose run --rm cli [ -f ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh ] && sh ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh
