@@ -15,6 +15,7 @@ services:
       - ./.env
     volumes:
       - ./plugin:/git/${PLUGIN_NAME}
+      - /home/.ssh:/root/.ssh
   wordpress:
     links:
       - db
@@ -33,7 +34,6 @@ services:
       - 8000
     restart: unless-stopped
     volumes:
-      - .ssh:/root/.ssh
       - ./wordpress:/var/www/html
       - ./plugin:/var/www/html/wp-content/plugins/${PLUGIN_NAME}
     networks:
