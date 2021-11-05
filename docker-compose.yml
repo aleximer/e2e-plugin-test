@@ -11,10 +11,11 @@ services:
       - e2e-net
   plugin:
     image: alpine/git
-    entrypoint: git clone ${PLUGIN_REPOSITORY} ${PLUGIN_NAME}
+    command: git clone ${PLUGIN_REPOSITORY} ${PLUGIN_NAME}
+    env_file:
+      - ./.env
     volumes:
       - plugin:/git/${PLUGIN_NAME}
-
   wordpress:
     links:
       - db
@@ -60,7 +61,7 @@ services:
       - wordpress
     environment:
       - CYPRESS_baseUrl=http://wordpress
-      - CYPRESS_PROJECT_ID=${CYPRESS_PROJECT_ID}
+      - CYPRESS_PROJECT_ID=${PLUGIN_CYPRESS_PROJECT_ID}
     volumes:
       - ./plugin/${PLUGIN_NAME}/tests/e2e:/e2e
     networks:
