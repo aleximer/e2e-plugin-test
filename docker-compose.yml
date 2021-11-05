@@ -47,7 +47,6 @@ services:
       - wordpress
     user: xfs
     volumes:
-      - ./plugin/${PLUGIN_NAME}:/var/www/html/wp-content/plugins/${PLUGIN_NAME}
       - ./wordpress:/var/www/html
       - ./scripts:/scripts
     networks:
