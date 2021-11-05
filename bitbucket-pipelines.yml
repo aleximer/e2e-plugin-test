@@ -4,19 +4,21 @@ pipelines:
   default:
     - step:
         script:
-          - git clone $E2E_PLUGIN_REPOSITORY .
+          - printenv | grep PLUGIN_ >> .env
+          - docker-compose up -d --build
+          - sleep 1m
+          - docker-compose run --rm cli sh /scripts/wordpress.sh
+          - docker-compose run --rm cli [ -f ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh ] && sh ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh
+          - echo "Tests for PB checkout run here"
+          - docker-compose run e2e --record --key $PORTERBUDDY_CYPRESS_KEY
+          - echo "Switching to USM"
+          - docker-compose run --rm cli sh ./wp-content/plugins/porterbuddy-for-woocommerce/tests/e2e/cli/checkout_template.sh new_universal_shipping
+          - echo "Tests for PB USM run here"
 #          - cd tests/e2e
 #          - echo PORTERBUDDY_DEV_PUBLIC_TOKEN=\"$PORTERBUDDY_DEV_PUBLIC_TOKEN\" >> .env
 #          - echo PORTERBUDDY_DEV_API_KEY=\"$PORTERBUDDY_DEV_API_KEY\" >> .env
 #          - echo CYPRESS_PROJECT_ID=\"$CYPRESS_PROJECT_ID\" >> .env
-#          - docker-compose up -d --build
-#          - sleep 1m
 #          - docker-compose run --rm cli sh ./wp-content/plugins/porterbuddy-for-woocommerce/tests/e2e/cli/wordpress.sh
-#          - echo "Tests for PB checkout run here"
-#          - docker-compose run e2e --record --key $PORTERBUDDY_CYPRESS_KEY
-#          - echo "Switching to USM"
-#          - docker-compose run --rm cli sh ./wp-content/plugins/porterbuddy-for-woocommerce/tests/e2e/cli/checkout_template.sh new_universal_shipping
-#          - echo "Tests for PB USM run here"
         services:
           - docker
         caches:
