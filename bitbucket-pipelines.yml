@@ -5,8 +5,9 @@ pipelines:
     - step:
         script:
           - printenv | grep PLUGIN_ >> .env
-#          - docker-compose up -d --build
+          - cp -R ~/.ssh $BITBUCKET_CLONE_DIR/.ssh
           - ls $BITBUCKET_CLONE_DIR/.ssh
+#          - docker-compose up -d --build
 #          - docker-compose run --rm plugin clone ${PLUGIN_REPOSITORY}
 #          - docker-compose run --rm cli sh /scripts/wordpress.sh
 #          - docker-compose run --rm cli [ -f ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh ] && sh ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh
