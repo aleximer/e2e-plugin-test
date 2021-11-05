@@ -10,7 +10,7 @@ pipelines:
           - cp ~/.ssh/known_hosts $BITBUCKET_CLONE_DIR/.ssh/
           - docker-compose up -d --build
           - docker-compose run --rm plugin clone ${PLUGIN_REPOSITORY}
-          - sllep 1m
+          - sleep 1m
           - docker-compose run --rm cli sh /scripts/wordpress.sh
           - docker-compose run --rm cli [ -f ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh ] && sh ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh
           - echo "Tests for PB checkout run here"
