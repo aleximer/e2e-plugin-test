@@ -6,10 +6,7 @@ pipelines:
         script:
           - printenv | grep PLUGIN_ >> .env
           - docker-compose up -d --build
-          - docker-compose run --rm plugin init
-          - docker-compose run --rm plugin remote add origin ${PLUGIN_REPOSITORY}
-          - docker-compose run --rm plugin fetch
-          - docker-compose run --rm plugin checkout origin/dev -ft
+          - docker-compose run --rm plugin clone ${PLUGIN_REPOSITORY}
           - sleep 1m
           - docker-compose run --rm cli sh /scripts/wordpress.sh
           - docker-compose run --rm cli [ -f ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh ] && sh ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh
