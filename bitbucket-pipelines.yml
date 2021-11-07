@@ -7,7 +7,7 @@ pipelines:
           - printenv | grep PLUGIN_ >> .env
           - docker-compose up -d --build
           - docker-compose run --rm plugin clone ${PLUGIN_REPOSITORY} temp
-          - docker-compose run --rm cli sh -c "cp -R /plugin/temp/* /plugin/porterbuddy-for-woocommerce"
+          - docker-compose run --rm cli sh -c "sudo cp -R /plugin/temp/* /plugin/porterbuddy-for-woocommerce"
           - docker-compose run --rm cli sh -c "chmod +x /scripts/*.sh"
           - docker-compose run --rm cli sh -c "/scripts/wait-for-it.sh db:3306"
           - docker-compose run --rm cli sh -c "/scripts/wordpress.sh"
