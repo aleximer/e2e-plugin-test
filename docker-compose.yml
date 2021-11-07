@@ -14,7 +14,7 @@ services:
     env_file:
       - ./.env
     volumes:
-      - ./plugin:/git/${PLUGIN_NAME}
+      - ./plugin:/git
       - ./.ssh:/root/.ssh
   wordpress:
     links:
@@ -49,6 +49,7 @@ services:
     volumes:
       - ./wordpress:/var/www/html
       - ./scripts:/scripts
+      - ./plugin:/plugin
     networks:
       - e2e-net
   e2e:
