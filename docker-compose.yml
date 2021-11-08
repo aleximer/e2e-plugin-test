@@ -50,8 +50,8 @@ services:
     user: root
     volumes:
       - ./wordpress:/var/www/html
-      - ./scripts:/scripts
-      - ./plugin:/plugin
+      - ./scripts:/scripts:rw
+      - ./plugin:/plugin:rw
     networks:
       - e2e-net
   e2e:
