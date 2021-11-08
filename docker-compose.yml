@@ -62,7 +62,9 @@ services:
       - CYPRESS_baseUrl=http://wordpress
       - CYPRESS_PROJECT_ID=${PLUGIN_CYPRESS_PROJECT_ID}
     volumes:
-      - ./plugin/${PLUGIN_NAME}/tests/e2e:/e2e
+      - ./plugin:/plugin
+      - ./wordpress:/wordpress
+      - ./wordpress/wp-content/plugins/${PLUGIN_NAME}/tests/e2e:/e2e
     networks:
       - e2e-net
 volumes:
