@@ -13,6 +13,7 @@ services:
     image: alpine/git
     env_file:
       - ./.env
+    user: xfs
     volumes:
       - ./plugin:/git
       - ./.ssh:/root/.ssh
