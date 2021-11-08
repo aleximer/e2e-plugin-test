@@ -13,7 +13,6 @@ services:
     image: alpine/git
     env_file:
       - ./.env
-    user: root
     volumes:
       - ./plugin:/git
       - ./.ssh:/root/.ssh
@@ -34,10 +33,8 @@ services:
     expose:
       - 8000
     restart: unless-stopped
-    user: root
     volumes:
       - ./wordpress:/var/www/html
-      - ./plugin/${PLUGIN_NAME}:/var/www/html/wp-content/plugins/${PLUGIN_NAME}
     networks:
       - e2e-net
   cli:
@@ -47,11 +44,11 @@ services:
     depends_on:
       - db
       - wordpress
-    user: root
+    user: xfs
     volumes:
       - ./wordpress:/var/www/html
-      - ./scripts:/scripts:rw
-      - ./plugin:/plugin:rw
+      - ./scripts:/scripts
+      - ./plugin:/plugin
     networks:
       - e2e-net
   e2e:
@@ -64,8 +61,8 @@ services:
     environment:
       - CYPRESS_baseUrl=http://wordpress
       - CYPRESS_PROJECT_ID=${PLUGIN_CYPRESS_PROJECT_ID}
-#    volumes:
-#      - ./plugin/${PLUGIN_NAME}/tests/e2e:/e2e
+    volumes:
+      - ./plugin/${PLUGIN_NAME}/tests/e2e:/e2e
     networks:
       - e2e-net
 volumes:
