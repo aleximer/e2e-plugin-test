@@ -10,6 +10,7 @@ pipelines:
           - docker-compose run --rm cli sh -c "chmod -R +w /plugin/porterbuddy-for-woocommerce"
           - docker-compose run --rm cli sh -c "cp -R /plugin/temp/* /plugin/porterbuddy-for-woocommerce"
           - docker-compose run --rm cli sh -c "/scripts/wait-for-it.sh db:3306"
+          - docker-compose run --rm cli sh -c "chmod +x /scripts/wordpress.sh"
           - docker-compose run --rm cli sh -c "/scripts/wordpress.sh"
           - docker-compose run --rm cli [ -f ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh ] && sh ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh
           - echo "Tests for PB checkout run here"
