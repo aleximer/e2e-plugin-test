@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 echo Installing woocommerce
 wp core download
 wp core install --title="${WP_SITE_TITLE}" --admin_user=${WP_ADMIN_USER} --admin_password=${WP_ADMIN_PASS} \
