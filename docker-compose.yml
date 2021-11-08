@@ -34,6 +34,7 @@ services:
     expose:
       - 8000
     restart: unless-stopped
+    user: root
     volumes:
       - ./wordpress:/var/www/html
       - ./plugin/${PLUGIN_NAME}:/var/www/html/wp-content/plugins/${PLUGIN_NAME}
@@ -46,7 +47,7 @@ services:
     depends_on:
       - db
       - wordpress
-    user: xfs
+    user: root
     volumes:
       - ./wordpress:/var/www/html
       - ./scripts:/scripts
