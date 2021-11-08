@@ -9,9 +9,8 @@ pipelines:
           - docker-compose run --rm plugin clone ${PLUGIN_REPOSITORY} temp
           - docker-compose run --rm cli sh -c "chmod -R +w /plugin/porterbuddy-for-woocommerce"
           - docker-compose run --rm cli sh -c "cp -R /plugin/temp/* /plugin/porterbuddy-for-woocommerce"
-#          - docker-compose run --rm cli sh -c "chmod +x /scripts/*.sh"
           - docker-compose run --rm cli sh -c "/scripts/wait-for-it.sh db:3306"
-          - docker-compose run --rm cli /scripts/wordpress.sh
+          - docker-compose run --rm cli sh -c "chmod +x /scripts/wordpress.sh && /scripts/wordpress.sh"
           - docker-compose run --rm cli [ -f ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh ] && sh ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh
           - echo "Tests for PB checkout run here"
           - docker-compose run -v $BITBUCKET_CLONE_DIR/plugin/${PLUGIN_NAME}/tests/e2e:/e2e e2e --record --key $PLUGIN_CYPRESS_KEY
