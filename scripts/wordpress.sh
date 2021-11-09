@@ -21,6 +21,7 @@ wp option update "woocommerce_store_city" "Bergen" --autoload=yes
 wp option update "woocommerce_default_country" "NO" --autoload=yes
 wp option update "woocommerce_store_postcode" "5059" --autoload=yes
 wp option update "woocommerce_store_phone_number" "55555555" --autoload=yes
+
 wp option update "porterbuddy_dev_public_token" "${PLUGIN_PORTERBUDDY_DEV_PUBLIC_TOKEN}" --autoload=yes
 wp option update "porterbuddy_dev_api_key" "${PLUGIN_PORTERBUDDY_DEV_API_KEY}" --autoload=yes
 wp option update "porterbuddy_testmode" "yes" --autoload=yes
