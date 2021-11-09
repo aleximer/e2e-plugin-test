@@ -18,6 +18,12 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     runs-on: ubuntu-latest
+    env:
+      PLUGIN_REPOSITORY: ${{ secrets.PLUGIN_REPOSITORY  }}
+      PLUGIN_NAME: ${{ secrets.PLUGIN_NAME  }}
+      PLUGIN_CYPRESS_KEY: ${{ secrets.PLUGIN_CYPRESS_KEY  }}
+      PLUGIN_CYPRESS_PROJECT_ID: ${{ secrets.PLUGIN_CYPRESS_PROJECT_ID  }}
+
     steps:
 
       - name: Checkout
@@ -43,8 +49,3 @@ jobs:
           echo "Switching to USM"
           docker-compose run --rm cli sh ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/checkout_template.sh new_universal_shipping
           echo "Tests for PB USM run here"
-        env:
-          PLUGIN_REPOSITORY: ${{ secrets.PLUGIN_REPOSITORY  }}
-          PLUGIN_NAME: ${{ secrets.PLUGIN_NAME  }}
-          PLUGIN_CYPRESS_KEY: ${{ secrets.PLUGIN_CYPRESS_KEY  }}
-          PLUGIN_CYPRESS_PROJECT_ID: ${{ secrets.PLUGIN_CYPRESS_PROJECT_ID  }}
