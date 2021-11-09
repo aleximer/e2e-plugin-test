@@ -26,12 +26,18 @@ jobs:
       - name: Docker up
         run: |
           docker-compose up -d --build
-          docker-compose run --rm plugin clone ${PLUGIN_REPOSITORY} temp
           docker-compose run --rm cli sh -c "/scripts/wait-for-it.sh db:3306"
+      - name: Checkout plugin
+        run: |
+          docker-compose run --rm plugin clone ${PLUGIN_REPOSITORY} temp
           docker-compose run --rm cli sh -c "mkdir -p ./wp-content/plugins/${PLUGIN_NAME}"
           docker-compose run --rm cli sh -c "cp -R /plugin/temp/* ./wp-content/plugins/${PLUGIN_NAME}"
+      - name: Set up wordpress
+        run: |
           docker-compose run --rm cli sh -c "/scripts/wordpress.sh"
           docker-compose run --rm cli [ -f ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh ] && sh ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh
+      - name: Set up wordpress
+        run: |
           echo "Tests for PB checkout run here"
           docker-compose run --workdir /wordpress/wp-content/plugins/${PLUGIN_NAME}/tests/e2e e2e --record --key $PLUGIN_CYPRESS_KEY
           echo "Switching to USM"
@@ -41,3 +47,4 @@ jobs:
           PLUGIN_REPOSITORY: ${{ secrets.PLUGIN_REPOSITORY  }}
           PLUGIN_NAME: ${{ secrets.PLUGIN_NAME  }}
           PLUGIN_CYPRESS_KEY: ${{ secrets.PLUGIN_CYPRESS_KEY  }}
+          PLUGIN_CYPRESS_PROJECT_ID: ${{ secrets.PLUGIN_CYPRESS_PROJECT_ID  }}
