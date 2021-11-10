@@ -17,6 +17,7 @@ services:
       - ./plugin:/git
       - ./.ssh:/root/.ssh
   wordpress:
+    user: xfs
     links:
       - db
     env_file:
@@ -54,6 +55,7 @@ services:
   e2e:
     image: cypress/included:3.4.0
     working_dir: /e2e
+    user: xfs
     depends_on:
       - wordpress
     links:
