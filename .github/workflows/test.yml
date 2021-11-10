@@ -39,10 +39,13 @@ jobs:
         run: |
           docker-compose up -d --build
           docker-compose run --rm cli sh -c "/scripts/wait-for-it.sh db:3306"
-      - name: Set up wordpress
+      - name: DEBUG Workaround GitHub-Actions-MacOS Issue with env.TMPDIR
         run: |
-          docker-compose run --rm cli sh -c "/scripts/wordpress.sh"
-          docker-compose run --rm cli [ -f ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh ] && sh ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh
+          docker-compose run --rm cli sh -c "echo TMPDIR=$TMPDIR"
+#      - name: Set up wordpress
+#        run: |
+#          docker-compose run --rm cli sh -c "/scripts/wordpress.sh"
+#          docker-compose run --rm cli [ -f ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh ] && sh ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh
 #      - name: Set up wordpress
 #        run: |
 #          echo "Tests for PB checkout run here"
