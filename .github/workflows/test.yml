@@ -29,18 +29,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Docker up
-        run: |
-          docker-compose up -d --build
-          docker-compose run --rm cli sh -c "/scripts/wait-for-it.sh db:3306"
+#      - name: Docker up
+#        run: |
+#          docker-compose up -d --build
+#          docker-compose run --rm cli sh -c "/scripts/wait-for-it.sh db:3306"
       - name: Checkout plugin
-        run: docker-compose run --rm plugin clone ${PLUGIN_REPOSITORY} temp
+        run: git clone ${PLUGIN_REPOSITORY} ./plugin/temp
       - name: Create plugin folder
-        run: docker-compose run --rm cli sh -c "mkdir -p ./wp-content/plugins/${PLUGIN_NAME}"
+        run: mkdir -p ./wordpress/wp-content/plugins/${PLUGIN_NAME}
       - name: and make it writable
-        run: docker-compose run --rm cli sh -c "sudo chmod -R +w ./wp-content/plugins/${PLUGIN_NAME}"
+        run: sudo chmod -R +w ./wordpress/wp-content/plugins/${PLUGIN_NAME}
       - name: Copy repo to this folder
-        run: docker-compose run --rm cli sh -c "sudo cp -R /plugin/temp/* ./wp-content/plugins/${PLUGIN_NAME}"
+        run: sudo cp -R ./plugin/temp/* ./wordpress/wp-content/plugins/${PLUGIN_NAME}
 #      - name: Set up wordpress
 #        run: |
 #          docker-compose run --rm cli sh -c "/scripts/wordpress.sh"
