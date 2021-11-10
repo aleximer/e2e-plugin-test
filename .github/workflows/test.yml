@@ -38,9 +38,9 @@ jobs:
       - name: Create plugin folder
         run: docker-compose run --rm cli sh -c "mkdir -p ./wp-content/plugins/${PLUGIN_NAME}"
       - name: and make it writable
-        run: docker-compose run --rm cli sh -c "chmod -R +w ./wp-content/plugins/${PLUGIN_NAME}"
+        run: docker-compose run --rm cli sh -c "sudo chmod -R +w ./wp-content/plugins/${PLUGIN_NAME}"
       - name: Copy repo to this folder
-        run: docker-compose run --rm cli sh -c "cp -R /plugin/temp/* ./wp-content/plugins/${PLUGIN_NAME}"
+        run: docker-compose run --rm cli sh -c "sudo cp -R /plugin/temp/* ./wp-content/plugins/${PLUGIN_NAME}"
 #      - name: Set up wordpress
 #        run: |
 #          docker-compose run --rm cli sh -c "/scripts/wordpress.sh"
