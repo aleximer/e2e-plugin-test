@@ -41,6 +41,7 @@ jobs:
           docker-compose run --rm cli sh -c "/scripts/wait-for-it.sh db:3306"
       - name: Set up wordpress
         run: |
+          docker-compose run --rm cli sh -c "mkdir ./wp-content/upgrade"
           docker-compose run --rm cli sh -c "chmod -R 777 ./wp-content/upgrade"
           docker-compose run --rm cli sh -c "/scripts/wordpress.sh"
           docker-compose run --rm cli [ -f ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh ] && sh ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh
