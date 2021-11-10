@@ -5,10 +5,10 @@ name: CI
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
-#  push:
-#    branches: [ master ]
-#  pull_request:
-#    branches: [ master ]
+  #  push:
+  #    branches: [ master ]
+  #  pull_request:
+  #    branches: [ master ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -34,18 +34,21 @@ jobs:
           docker-compose up -d --build
           docker-compose run --rm cli sh -c "/scripts/wait-for-it.sh db:3306"
       - name: Checkout plugin
-        run: |
-          docker-compose run --rm plugin clone ${PLUGIN_REPOSITORY} temp
-          docker-compose run --rm cli sh -c "mkdir -p ./wp-content/plugins/${PLUGIN_NAME}"
-          docker-compose run --rm cli sh -c "cp -R /plugin/temp/* ./wp-content/plugins/${PLUGIN_NAME}"
-      - name: Set up wordpress
-        run: |
-          docker-compose run --rm cli sh -c "/scripts/wordpress.sh"
-          docker-compose run --rm cli [ -f ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh ] && sh ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh
-      - name: Set up wordpress
-        run: |
-          echo "Tests for PB checkout run here"
-          docker-compose run --workdir /wordpress/wp-content/plugins/${PLUGIN_NAME}/tests/e2e e2e --record --key $PLUGIN_CYPRESS_KEY
-          echo "Switching to USM"
-          docker-compose run --rm cli sh ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/checkout_template.sh new_universal_shipping
-          echo "Tests for PB USM run here"
+        run: docker-compose run --rm plugin clone ${PLUGIN_REPOSITORY} temp
+      - name: Create plugin folder
+        run: docker-compose run --rm cli sh -c "mkdir -p ./wp-content/plugins/${PLUGIN_NAME}"
+      - name: and make it writable
+        run: docker-compose run --rm cli sh -c "chmod -R +w ./wp-content/plugins/${PLUGIN_NAME}"
+      - name: Copy repo to this folder
+        run: docker-compose run --rm cli sh -c "cp -R /plugin/temp/* ./wp-content/plugins/${PLUGIN_NAME}"
+#      - name: Set up wordpress
+#        run: |
+#          docker-compose run --rm cli sh -c "/scripts/wordpress.sh"
+#          docker-compose run --rm cli [ -f ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh ] && sh ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh
+#      - name: Set up wordpress
+#        run: |
+#          echo "Tests for PB checkout run here"
+#          docker-compose run --workdir /wordpress/wp-content/plugins/${PLUGIN_NAME}/tests/e2e e2e --record --key $PLUGIN_CYPRESS_KEY
+#          echo "Switching to USM"
+#          docker-compose run --rm cli sh ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/checkout_template.sh new_universal_shipping
+#          echo "Tests for PB USM run here"
