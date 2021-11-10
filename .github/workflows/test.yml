@@ -33,7 +33,7 @@ jobs:
         run: |
           git clone ${PLUGIN_REPOSITORY} ./plugin/temp
           mkdir -p ./wordpress/wp-content/plugins/${PLUGIN_NAME}
-          sudo chmod -R +w ./wordpress/wp-content/plugins/${PLUGIN_NAME}
+          sudo chmod -R +w ./wordpress/wp-content
           sudo cp -R ./plugin/temp/* ./wordpress/wp-content/plugins/${PLUGIN_NAME}
       - name: Docker up
         run: |
