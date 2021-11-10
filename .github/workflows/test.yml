@@ -33,19 +33,17 @@ jobs:
         run: |
           git clone ${PLUGIN_REPOSITORY} ./plugin/temp
           mkdir -p ./wordpress/wp-content/plugins/${PLUGIN_NAME}
-          sudo chmod -R +w ./wordpress/wp-content
+          sudo chmod 777 +w ./wordpress/wp-content
           sudo cp -R ./plugin/temp/* ./wordpress/wp-content/plugins/${PLUGIN_NAME}
       - name: Docker up
         run: |
           docker-compose up -d --build
           docker-compose run --rm cli sh -c "/scripts/wait-for-it.sh db:3306"
-      - name: DEBUG Workaround GitHub-Actions-MacOS Issue with env.TMPDIR
+      - name: Set up wordpress
         run: |
-          docker-compose run --rm cli sh -c "echo TMPDIR=$TMPDIR"
-#      - name: Set up wordpress
-#        run: |
-#          docker-compose run --rm cli sh -c "/scripts/wordpress.sh"
-#          docker-compose run --rm cli [ -f ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh ] && sh ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh
+          docker-compose run --rm cli sh -c "chmod -R 777 ./wp-content/upgrade"
+          docker-compose run --rm cli sh -c "/scripts/wordpress.sh"
+          docker-compose run --rm cli [ -f ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh ] && sh ./wp-content/plugins/${PLUGIN_NAME}/tests/e2e/cli/cli.sh
 #      - name: Set up wordpress
 #        run: |
 #          echo "Tests for PB checkout run here"
