@@ -44,7 +44,7 @@ services:
     depends_on:
       - db
       - wordpress
-    user: root
+    user: xfs
     volumes:
       - ./wordpress:/var/www/html:rw
       - ./scripts:/scripts
